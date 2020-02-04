@@ -43,6 +43,14 @@ let dataLookup = {
 		dataUrl: "../../assets/data/squirrel.json",
 		imageUrl: "../../assets/img/playground/squirrel.jpg"
 
+    },
+    
+    snail: {
+
+		relativeDiv: "data6",
+		dataUrl: "../../assets/data/snail.json",
+		imageUrl: "../../assets/img/playground/snail.jpg"
+
 	}
 
 };
