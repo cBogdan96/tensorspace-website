@@ -5,276 +5,334 @@ let selectedDiv = undefined;
 
 let dataLookup = {
 
-	panda: {
+    panda: {
 
-		relativeDiv: "data1",
-		dataUrl: "../../assets/data/panda.json",
-		imageUrl: "../../assets/img/playground/panda.jpg"
-
-	},
-
-	tigerCat: {
-
-		relativeDiv: "data2",
-		dataUrl: "../../assets/data/tigerCat.json",
-		imageUrl: "../../assets/img/playground/tigerCat.jpg"
-
-	},
-
-	hummingbird: {
-
-		relativeDiv: "data3",
-		dataUrl: "../../assets/data/hummingbird.json",
-		imageUrl: "../../assets/img/playground/hummingbird.jpg"
-
-	},
-
-	peacock: {
-
-		relativeDiv: "data4",
-		dataUrl: "../../assets/data/peacock.json",
-		imageUrl: "../../assets/img/playground/peacock.jpg"
-
-	},
-
-	squirrel: {
-
-		relativeDiv: "data5",
-		dataUrl: "../../assets/data/squirrel.json",
-		imageUrl: "../../assets/img/playground/squirrel.jpg"
+        relativeDiv: "data1",
+        dataUrl: "../../assets/data/panda.json",
+        imageUrl: "../../assets/img/playground/panda.jpg"
 
     },
-    
+
+    tigerCat: {
+
+        relativeDiv: "data2",
+        dataUrl: "../../assets/data/tigerCat.json",
+        imageUrl: "../../assets/img/playground/tigerCat.jpg"
+
+    },
+
+    hummingbird: {
+
+        relativeDiv: "data3",
+        dataUrl: "../../assets/data/hummingbird.json",
+        imageUrl: "../../assets/img/playground/hummingbird.jpg"
+
+    },
+
+    peacock: {
+
+        relativeDiv: "data4",
+        dataUrl: "../../assets/data/peacock.json",
+        imageUrl: "../../assets/img/playground/peacock.jpg"
+
+    },
+
+    squirrel: {
+
+        relativeDiv: "data5",
+        dataUrl: "../../assets/data/squirrel.json",
+        imageUrl: "../../assets/img/playground/squirrel.jpg"
+
+    },
+
     snail: {
 
-		relativeDiv: "data6",
-		dataUrl: "../../assets/data/snail.json",
-		imageUrl: "../../assets/img/playground/snail.jpg"
+        relativeDiv: "data6",
+        dataUrl: "../../assets/data/snail.json",
+        imageUrl: "../../assets/img/playground/snail.jpg"
 
-	}
+    }
 
 };
 
-$(function() {
+$(function () {
 
-	$.ajax({
-		url: '../../assets/data/imagenet_result.json',
-		type: 'GET',
-		async: true,
-		dataType: 'json',
-		success: function (data) {
+    $.ajax({
+        url: '../../assets/data/imagenet_result.json',
+        type: 'GET',
+        async: true,
+        dataType: 'json',
+        success: function (data) {
 
-			imagenetResult = data;
-			createModel();
+            imagenetResult = data;
+            createModel();
 
-		}
-	});
+        }
+    });
 
-	$("#selector > main > div > img").click(function() {
-		$(this).css("border", "1px solid #6597AF");
-		if (selectedDiv !== undefined) {
-			$("#" + selectedDiv).css("border", "0");
-		}
-		selectedDiv = $(this).attr('id');
-	});
+    $("#selector > main > div > img").click(function () {
+        $(this).css("border", "1px solid #6597AF");
+        if (selectedDiv !== undefined) {
+            $("#" + selectedDiv).css("border", "0");
+        }
+        selectedDiv = $(this).attr('id');
+    });
 
-	$("#cancelPredict").click(function() {
-		hideSelector()
-	});
+    $("#cancelPredict").click(function () {
+        hideSelector()
+    });
 
-	$("#selectorCurtain").click(function() {
-		hideSelector();
-	});
+    $("#selectorCurtain").click(function () {
+        hideSelector();
+    });
 
-	$("#selectorTrigger").click(function() {
-		showSelector();
-	});
+    $("#selectorTrigger").click(function () {
+        showSelector();
+    });
 
-	$("#executePredict").click(function() {
+    $("#snapShot").click(function () {
+        take_snapshot();
+    });
 
-		updatePredictDataKey();
-		hideSelector();
-		getDataAndPredict(function(finalResult) {
-			$("#labelImage").attr("src", dataLookup[ predictDataKey ].imageUrl);
-			generateInference( finalResult );
-		});
+    $("#startCamera").click(function(){
+        attach_camera();     
+    });
 
-	});
+    $("#executePredict").click(function () {
+
+        updatePredictDataKey();
+        hideSelector();
+        getDataAndPredict(function (finalResult) {
+            $("#labelImage").attr("src", dataLookup[predictDataKey].imageUrl);
+            generateInference(finalResult);
+        });
+
+    });
+
+    $("#executePredictCamera").click(function () {
+
+        updatePredictDataKeyCamera();
+        getDataAndPredict(function (finalResult) {
+            $("#results").attr("src", dataLookup[predictDataKey].imageUrl);
+            generateInference(finalResult);
+        });
+
+    });
 
 });
 
 function createModel() {
 
-	let container = document.getElementById( "modelArea" );
+    let container = document.getElementById("modelArea");
 
-	model = new TSP.models.Sequential( container, {
+    model = new TSP.models.Sequential(container, {
 
-		stats: true
+        stats: true
 
-	} );
+    });
 
-	model.add( new TSP.layers.RGBInput() );
+    model.add(new TSP.layers.RGBInput());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.DepthwiseConv2d() );
+    model.add(new TSP.layers.DepthwiseConv2d());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.DepthwiseConv2d() );
+    model.add(new TSP.layers.DepthwiseConv2d());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.DepthwiseConv2d() );
+    model.add(new TSP.layers.DepthwiseConv2d());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.DepthwiseConv2d() );
+    model.add(new TSP.layers.DepthwiseConv2d());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.DepthwiseConv2d() );
+    model.add(new TSP.layers.DepthwiseConv2d());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.DepthwiseConv2d() );
+    model.add(new TSP.layers.DepthwiseConv2d());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.DepthwiseConv2d() );
+    model.add(new TSP.layers.DepthwiseConv2d());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.DepthwiseConv2d() );
+    model.add(new TSP.layers.DepthwiseConv2d());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.DepthwiseConv2d() );
+    model.add(new TSP.layers.DepthwiseConv2d());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.DepthwiseConv2d() );
+    model.add(new TSP.layers.DepthwiseConv2d());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.DepthwiseConv2d() );
+    model.add(new TSP.layers.DepthwiseConv2d());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.DepthwiseConv2d() );
+    model.add(new TSP.layers.DepthwiseConv2d());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.DepthwiseConv2d() );
+    model.add(new TSP.layers.DepthwiseConv2d());
 
-	model.add( new TSP.layers.Conv2d() );
+    model.add(new TSP.layers.Conv2d());
 
-	model.add( new TSP.layers.GlobalPooling2d() );
+    model.add(new TSP.layers.GlobalPooling2d());
 
-	model.add( new TSP.layers.Output1d( {
-		
-		paging: true,
-		segmentLength: 200,
-		outputs: imagenetResult
+    model.add(new TSP.layers.Output1d({
 
-	} ) );
+        paging: true,
+        segmentLength: 200,
+        outputs: imagenetResult
 
-	model.load( {
+    }));
 
-		type: "tfjs",
-		url: '../../assets/model/mobilenetv1/model.json',
-		
-		onProgress: function( fraction ) {
-			
-			$("#downloadProgress").html( ( 100 * fraction ).toFixed( 2 ) + "%" );
-			
-		},
-		
-		onComplete: function() {
-			
-			$("#downloadNotice").hide();
-			$("#creationNotice").show();
-			
-		}
+    model.load({
 
-	} );
+        type: "tfjs",
+        url: '../../assets/model/mobilenetv1/model.json',
 
-	model.init( function() {
+        onProgress: function (fraction) {
 
-		getDataAndPredict( function( finalResult ) {
-			$( "#loadingPad" ).hide();
+            $("#downloadProgress").html((100 * fraction).toFixed(2) + "%");
 
-			generateInference( finalResult );
+        },
 
-		} );
+        onComplete: function () {
 
-	} );
+            $("#downloadNotice").hide();
+            $("#creationNotice").show();
+
+        }
+
+    });
+
+    model.init(function () {
+
+        getDataAndPredict(function (finalResult) {
+            $("#loadingPad").hide();
+
+            generateInference(finalResult);
+
+        });
+
+    });
 
 }
 
-function getDataAndPredict( callback ) {
+function getDataAndPredict(callback) {
 
-	$.ajax({
-		url: dataLookup[ predictDataKey ].dataUrl,
-		type: 'GET',
-		async: true,
-		dataType: 'json',
-		success: function (data) {
+    $.ajax({
+        url: dataLookup[predictDataKey].dataUrl,
+        type: 'GET',
+        async: true,
+        dataType: 'json',
+        success: function (data) {
 
-			model.predict( data, function( finalResult ){
+            model.predict(data, function (finalResult) {
 
-				if ( callback !== undefined ) {
-					callback( finalResult );
-				}
+                if (callback !== undefined) {
+                    callback(finalResult);
+                }
 
-			} );
+            });
 
-		}
-	});
+        }
+    });
 
 }
 
 function showSelector() {
-	$("#selector").show();
-	$("#selectorCurtain").show();
+    $("#selector").show();
+    $("#selectorCurtain").show();
 }
 
 function hideSelector() {
-	$("#selector").hide();
-	$("#selectorCurtain").hide();
-	if (selectedDiv !== undefined) {
-		$("#" + selectedDiv).css("border", "0");
-	}
-	selectedDiv = undefined;
+    $("#selector").hide();
+    $("#selectorCurtain").hide();
+    if (selectedDiv !== undefined) {
+        $("#" + selectedDiv).css("border", "0");
+    }
+    selectedDiv = undefined;
 }
 
 function updatePredictDataKey() {
 
-	for ( let key in dataLookup ) {
+    for (let key in dataLookup) {
 
-		if ( dataLookup[ key ].relativeDiv === selectedDiv ) {
+        if (dataLookup[key].relativeDiv === selectedDiv) {
 
-			predictDataKey = key;
-			break;
+            predictDataKey = key;
+            break;
 
-		}
+        }
 
-	}
+    }
 
 }
 
-function generateInference( finalResult ) {
+function updatePredictDataKeyCamera() {
 
-	let maxIndex = 0;
+    for (let key in dataLookup) {
 
-	for ( let i = 1; i < finalResult.length; i ++ ) {
+        if (dataLookup[key].relativeDiv === selectedDivSnap) {
 
-		maxIndex = finalResult[ i ] > finalResult[ maxIndex ] ? i : maxIndex;
+            predictDataKey = "tigerCat";
+            break;
 
-	}
+        }
 
-	console.log( imagenetResult[ maxIndex ] );
+    }
 
-	$("#PredictResult").text(imagenetResult[ maxIndex ]);
+}
 
+
+
+
+function generateInference(finalResult) {
+
+    let maxIndex = 0;
+
+    for (let i = 1; i < finalResult.length; i++) {
+
+        maxIndex = finalResult[i] > finalResult[maxIndex] ? i : maxIndex;
+
+    }
+
+    console.log(imagenetResult[maxIndex]);
+
+    $("#PredictResult").text(imagenetResult[maxIndex]);
+
+}
+
+function attach_camera(){
+    Webcam.set({
+        width: 320,
+        height: 240,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+       });
+       Webcam.attach( '#my_camera' );
+}
+
+
+function take_snapshot() {
+
+    // take snapshot and get image data
+    Webcam.snap(function (data_uri) {
+        // display results in page
+        $("#results").attr('src',data_uri)
+        selectedDivSnap = "data4";
+
+    });
 }

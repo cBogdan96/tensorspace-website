@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>TensorSpace Playground - MobileNetv1</title>
 
     <meta name="description" content="TensorSpace.js Playground">
     <meta name="author" content="syt123450 / https://github.com/syt123450">
-    <link rel='icon' href='../../assets/img/common/logo.ico' type=‘image/x-ico’>
-    <meta name="viewport" content="width = device-width, initial-scale =1.0, maximum-scale = 1.0, user-scalable = no">
+    <link rel='icon' href='../../assets/img/common/logo.ico' type=‘image/x-ico’> <meta name="viewport"
+        content="width = device-width, initial-scale =1.0, maximum-scale = 1.0, user-scalable = no">
 
     <script src="../../assets/jslib/jquery.min.js"></script>
     <link rel="stylesheet" href="../../assets/csslib/bootstrap.min.css">
@@ -33,131 +34,148 @@
     <script src="../../js/mobilenet.js"></script>
 
 </head>
+
 <body>
 
-<nav>
+    <nav>
 
-    <div class="container">
+        <div class="container">
 
-        <div id="logo">
-            <a href="../../index.html">
-                <img src="../../assets/img/common/logoSmall.png">
-                <div>TensorSpace.js</div>
-            </a>
-        </div>
-
-    </div>
-
-    <ul id="more" class="nav nav-tabs visible-xs">
-        <li>
-            <a>
-                <span class="glyphicon glyphicon-th-large"></span>
-            </a>
-        </li>
-    </ul>
-
-    <ul id="nav-collapse" class="nav navbar-nav">
-        <li><a href="../../index.html">Home</a></li>
-        <!--<li><a href="../developer.html">Developer</a></li>-->
-    </ul>
-
-    <div class="language">
-        <div class="selected">
-            <div>EN</div>
-        </div>
-        <div>
-            <div><a href="mobilenetv1_zh.html">中</a></div>
-        </div>
-    </div>
-
-</nav>
-
-<aside id="playgroundNav">
-    <div><a href="index.html">Introduction</a></div>
-    <div><a href="lenet.html">LeNet</a><span class="aside-size-of-model">0.2MB</span></div>
-    <div><a href="trainingLeNet.html">LeNet Training Visualization</a></div>
-    <div><a href="alexnet.html">AlexNet</a><span class="aside-size-of-model">237MB</span></div>
-    <!--<div><a href="vgg16.html">VGG-16</a><span class="aside-size-of-model">527MB</span></div>-->
-    <div><a href="inceptionv3.html">InceptionV3</a><span class="aside-size-of-model">96MB</span></div>
-    <div><a href="resnet50.html">ResNet-50</a><span class="aside-size-of-model">98MB</span></div>
-    <div class="now-label">MobileNetv1<span class="aside-size-of-model">16MB</span></div>
-    <div><a href="yolov2-tiny.html">YOLOv2-tiny</a><span class="aside-size-of-model">60MB</span></div>
-    <div><a href="acgan.html">ACGAN</a><span class="aside-size-of-model">3MB</span></div>
-    <img id="close" src="../../assets/img/playground/close.png">
-</aside>
-
-<div id="curtain"></div>
-
-<button id="playgroundMenu" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-    <i class="material-icons">menu</i>
-</button>
-
-<main>
-
-    <div id="loadingPad" style="background-color: #191F26">
-        <img id="loading" style="width: 40%; left: 30%;" src="../../assets/img/loading/waterLoading.gif">
-        <div class="loading-label">
-            <div id="downloadNotice">Downloading MoblieNetv1 pre-trained model <span id="downloadProgress">0%</span>
+            <div id="logo">
+                <a href="../../index.html">
+                    <img src="../../assets/img/common/logoSmall.png">
+                    <div>TensorSpace.js</div>
+                </a>
             </div>
-            <div id="creationNotice">Download completed! Creating TensorSpace MoblieNetv1 Model...</div>
-            <div>17MB <span class="span-estimate">- Estimate 20s to 60s</span></div>
+
         </div>
-    </div>
-    <div id="modelArea"></div>
-    <div id="controlPanel">
 
-        <div class="panelTitle">MobileNetv1</div>
-        <div class="nav-size-of-model">( Model Size: 16MB )</div>
+        <ul id="more" class="nav nav-tabs visible-xs">
+            <li>
+                <a>
+                    <span class="glyphicon glyphicon-th-large"></span>
+                </a>
+            </li>
+        </ul>
 
-        <img id="labelImage" src="../../assets/img/playground/panda.jpg">
+        <ul id="nav-collapse" class="nav navbar-nav">
+            <li><a href="../../index.html">Home</a></li>
+            <!--<li><a href="../developer.html">Developer</a></li>-->
+        </ul>
 
-        <button id="selectorTrigger"
+        <div class="language">
+            <div class="selected">
+                <div>EN</div>
+            </div>
+            <div>
+                <div><a href="mobilenetv1_zh.html">中</a></div>
+            </div>
+        </div>
+
+    </nav>
+
+    <aside id="playgroundNav">
+        <div><a href="index.html">Introduction</a></div>
+        <div><a href="lenet.html">LeNet</a><span class="aside-size-of-model">0.2MB</span></div>
+        <div><a href="trainingLeNet.html">LeNet Training Visualization</a></div>
+        <div><a href="alexnet.html">AlexNet</a><span class="aside-size-of-model">237MB</span></div>
+        <!--<div><a href="vgg16.html">VGG-16</a><span class="aside-size-of-model">527MB</span></div>-->
+        <div><a href="inceptionv3.html">InceptionV3</a><span class="aside-size-of-model">96MB</span></div>
+        <div><a href="resnet50.html">ResNet-50</a><span class="aside-size-of-model">98MB</span></div>
+        <div class="now-label">MobileNetv1<span class="aside-size-of-model">16MB</span></div>
+        <div><a href="yolov2-tiny.html">YOLOv2-tiny</a><span class="aside-size-of-model">60MB</span></div>
+        <div><a href="acgan.html">ACGAN</a><span class="aside-size-of-model">3MB</span></div>
+        <img id="close" src="../../assets/img/playground/close.png">
+    </aside>
+
+    <div id="curtain"></div>
+
+    <button id="playgroundMenu" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        <i class="material-icons">menu</i>
+    </button>
+
+    <main>
+
+        <div id="loadingPad" style="background-color: #191F26">
+            <img id="loading" style="width: 40%; left: 30%;" src="../../assets/img/loading/waterLoading.gif">
+            <div class="loading-label">
+                <div id="downloadNotice">Downloading MoblieNetv1 pre-trained model <span id="downloadProgress">0%</span>
+                </div>
+                <div id="creationNotice">Download completed! Creating TensorSpace MoblieNetv1 Model...</div>
+                <div>17MB <span class="span-estimate">- Estimate 20s to 60s</span></div>
+            </div>
+        </div>
+        <div id="modelArea"></div>
+        <div id="controlPanel">
+
+            <div class="panelTitle">MobileNetv1</div>
+            <div class="nav-size-of-model">( Model Size: 16MB )</div>
+
+            <img id="labelImage" src="../../assets/img/playground/panda.jpg">
+
+            <button id="selectorTrigger"
                 class="controlButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-            <i class="material-icons">add_photo_alternate</i>Select
-        </button>
+                <i class="material-icons">add_photo_alternate</i>Select
+            </button>
 
-        <button id="resetTrigger"
+            <button id="resetTrigger"
                 class="controlButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-            <i class="material-icons">replay</i>Reset
-        </button>
+                <i class="material-icons">replay</i>Reset
+            </button>
 
-        <div id="hint">MobileNet thinks its a</div>
+            <div id="hint">MobileNet thinks its a</div>
 
-        <div id="PredictResult">?</div>
+            <div id="PredictResult">?</div>
 
-    </div>
+            <div id="my_camera"></div>
+            <button id="startCamera"
+                class="controlButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                <i class="material-icons">add_photo_alternate</i>Start Camera
+            </button>
+            <button id="snapShot"
+                class="controlButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                <i class="material-icons">replay</i>SnapShot
+            </button>
+            <img id="results" src="../../assets/img/playground/panda.jpg"></img>
 
-    <div id="selector">
-        <header>Select an Image to Predict</header>
-        <main>
-            <div>
-                <img id="data1" src="../../assets/img/playground/panda.jpg">
-            </div>
-            <div>
-                <img id="data2" src="../../assets/img/playground/tigerCat.jpg">
-            </div>
-            <div>
-                <img id="data3" src="../../assets/img/playground/hummingbird.jpg">
-            </div>
-            <div>
-                <img id="data4" src="../../assets/img/playground/peacock.jpg">
-            </div>
-            <div>
-                <img id="data5" src="../../assets/img/playground/squirrel.jpg">
-            </div>
-            <div>
-                <img id="data6" src="../../assets/img/playground/snail.jpg">
-            </div>
-        </main>
-        <footer>
-            <div id="executePredict">Predict</div>
-            <div id="cancelPredict">Cancel</div>
-        </footer>
-    </div>
+            <button id="executePredictCamera"
+                class="controlButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                <i class="material-icons">replay</i>Predict
+            </button>
+        </div>
 
-    <div id="selectorCurtain"></div>
+        <div id="selector">
+            <header>Select an Image to Predict</header>
+            <main>
+                <div>
+                    <img id="data1" src="../../assets/img/playground/panda.jpg">
+                </div>
+                <div>
+                    <img id="data2" src="../../assets/img/playground/tigerCat.jpg">
+                </div>
+                <div>
+                    <img id="data3" src="../../assets/img/playground/hummingbird.jpg">
+                </div>
+                <div>
+                    <img id="data4" src="../../assets/img/playground/peacock.jpg">
+                </div>
+                <div>
+                    <img id="data5" src="../../assets/img/playground/squirrel.jpg">
+                </div>
+                <div>
+                    <img id="data6" src="../../assets/img/playground/snail.jpg">
+                </div>
+            </main>
+            <footer>
+                <div id="executePredict">Predict</div>
+                <div id="cancelPredict">Cancel</div>
+            </footer>
+        </div>
 
-</main>
+        <div id="selectorCurtain"></div>
+
+    </main>
 
 </body>
+
 </html>
