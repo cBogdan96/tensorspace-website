@@ -28,6 +28,16 @@
 
 }
 
+.cameraText {
+
+    width: 100%;
+    text-align: center;
+    color: #D6FDFF;
+    font-size: 40px;
+    line-height: 40px;
+
+}
+
 
 #my_camera{
  width: 320px;
