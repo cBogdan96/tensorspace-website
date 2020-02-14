@@ -123,3 +123,17 @@
     display: none;
 
 }
+
+
+
+#startCamera {
+    margin-left: 30px;
+}
+
+#snapShot {
+    margin-left: 20px;
+}
+
+#executePredictCamera{
+    margin-left: 25px;
+}

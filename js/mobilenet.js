@@ -111,11 +111,12 @@ $(function () {
 
     $("#executePredictCamera").click(function () {
 
-        updatePredictDataKeyCamera();
-        getDataAndPredict(function (finalResult) {
-            $("#results").attr("src", dataLookup[predictDataKey].imageUrl);
-            generateInference(finalResult);
-        });
+        //updatePredictDataKeyCamera();
+        // getDataAndPredictCamera(function (finalResult) {
+        //     //$("#results").attr("src", dataLookup[predictDataKey].imageUrl);
+        predictCamera(); 
+        // generateInference(finalResult);
+        // });
 
     });
 
@@ -252,6 +253,9 @@ function getDataAndPredict(callback) {
 
 }
 
+
+
+
 function showSelector() {
     $("#selector").show();
     $("#selectorCurtain").show();
@@ -268,6 +272,9 @@ function hideSelector() {
 
 function updatePredictDataKey() {
 
+
+
+
     for (let key in dataLookup) {
 
         if (dataLookup[key].relativeDiv === selectedDiv) {
@@ -281,20 +288,41 @@ function updatePredictDataKey() {
 
 }
 
-function updatePredictDataKeyCamera() {
+function predictCamera() {
 
-    for (let key in dataLookup) {
+    let canvas = document.getElementById('canvas');
+    let imageSnap = document.getElementById('labelImage');
+    let context = canvas.getContext( '2d' );
+    context.drawImage(imageSnap,0,0, canvas.width, canvas.height);
+	let imgData = context.getImageData( 0, 0, canvas.width, canvas.height );
 
-        if (dataLookup[key].relativeDiv === selectedDivSnap) {
+    let cameraImage = [];
 
-            predictDataKey = "tigerCat";
-            break;
+	// for ( let i = 0; i < 224; i += 8 ) {
 
-        }
+	// 	for ( let j = 3; j < 172032; j += 32 ) {
 
-    }
+         for( let j = 0; j < 150528; j += 1 ) {
+
+            var b =  imgData.data[j] * 1.0/255;
+               
+			cameraImage.push( b );
+
+         }
+
+
+	// 	}
+
+    // }
+    
+    model.predict(cameraImage, function (finalResult) {
+
+        generateInference(finalResult)
+
+    });
 
 }
+
 
 
 
@@ -332,7 +360,7 @@ function take_snapshot() {
     Webcam.snap(function (data_uri) {
         // display results in page
         $("#results").attr('src',data_uri)
-        selectedDivSnap = "data4";
+        selectedDivSnap = data_uri;
 
     });
 }
