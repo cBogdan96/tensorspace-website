@@ -289,26 +289,71 @@ function updatePredictDataKey() {
 }
 
 function predictCamera() {
-
+    
     let canvas = document.getElementById('canvas');
-    let imageSnap = document.getElementById('labelImage');
+    let imageSnap = document.getElementById('results');
     let context = canvas.getContext( '2d' );
     context.drawImage(imageSnap,0,0, canvas.width, canvas.height);
-	let imgData = context.getImageData( 0, 0, canvas.width, canvas.height );
+    let imgData = context.getImageData( 0, 0, canvas.width, canvas.height );
+    context.putImageData(imgData,0,0);
 
     let cameraImage = [];
+    let size = imgData.width * imgData.height *4;
+
+    let maxR = 0;
+    let minR = 255;
+
+    let maxG = 0;
+    let minG = 255;
+
+    let maxB = 0;
+    let minB = 255;
+
+    for (let i = 0, dx = 0; dx < size; i++, dx = i << 2) {
+        cameraImage.push( imgData.data[dx]);
+        if(imgData.data[dx] > maxR){
+            maxR= imgData.data[dx];
+        }
+        if(imgData.data[dx] < minR){
+            minR= imgData.data[dx];
+        }
+        cameraImage.push( imgData.data[dx+1]);
+        if(imgData.data[dx] > maxG){
+            maxG= imgData.data[dx];
+        }
+        if(imgData.data[dx] < minG){
+            minG= imgData.data[dx];
+        }
+        cameraImage.push( imgData.data[dx+2]);
+        if(imgData.data[dx] > maxB){
+            maxB= imgData.data[dx];
+        }
+        if(imgData.data[dx] < minB){
+            minB= imgData.data[dx];
+        }
+
+    }
+
+    for(let j =0 ; j< cameraImage.length;j+=3){
+        cameraImage[j] = 2*(cameraImage[j] - minR) / (maxR - minR)
+        cameraImage[j+1] = 2*(cameraImage[j+1] - minG) / (maxG - minG)
+        cameraImage[j+2] = 2*(cameraImage[j+2] - minB) / (maxB - minB)
+    }
+   
+
+
 
 	// for ( let i = 0; i < 224; i += 8 ) {
 
 	// 	for ( let j = 3; j < 172032; j += 32 ) {
 
-         for( let j = 0; j < 150528; j += 1 ) {
+        //  for( let j = 0; j < 150528; j += 1 ) {
 
-            var b =  imgData.data[j] * 1.0/255;
+        //     var b =  imgData.data[j] * 1.0/255;
                
-			cameraImage.push( b );
+		// 	cameraImage.push( b );
 
-         }
+        //  }
 
 
 	// 	}
